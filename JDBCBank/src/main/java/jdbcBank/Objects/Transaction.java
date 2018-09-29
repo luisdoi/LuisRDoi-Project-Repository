@@ -68,8 +68,8 @@ public class Transaction {
 	}
 	@Override
 	public String toString() {
-		return "Transaction [transactionID=" + transactionID + ", transactionTypeID=" + transactionTypeID
-				+ ", customerID=" + customerID + ", employeeID=" + employeeID + ", oldBalance=" + oldBalance
-				+ ", newBalance=" + newBalance + ", accountID=" + accountID + "]";
+		return "Transaction [transactionID=" + transactionID + ", transactionTypeID=" + Account.getTypeIDAsString(transactionTypeID)
+				+ ", customerID=" + customerID + ", employeeID=" + employeeID + ", oldBalance=" + String.format("%1$,.2f", oldBalance) 
+				+ ", newBalance=" +  String.format("%1$,.2f", newBalance) + ", accountID=" + accountID + "]";
 	}
 }

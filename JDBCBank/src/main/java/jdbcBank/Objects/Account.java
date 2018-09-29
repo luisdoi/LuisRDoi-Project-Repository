@@ -4,11 +4,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import jdbcBank.DAOImpl.AccountDAOImpl;
+import jdbcBank.Objects.BankLogger;
 
 public class Account {
 	
 	public static AccountDAOImpl accountDAO = new AccountDAOImpl();
-	
+	//private BankLogger bankLogger = new BankLogger();
+
 	private long accountID;
 	private int typeID; 
 	private double balance;
@@ -30,8 +32,10 @@ public class Account {
 		ArrayList<Account> accountList = null;
 		try {
 			accountList = accountDAO.getCustomerAccounts(customerID);
-			if(accountList.isEmpty())
+			if(accountList.isEmpty()) {
+				System.out.println("\nThere are no accounts under this customer's name.\n");
 				return false;
+			}
 			else {
 				System.out.println("Now showing accounts belonging to customerID:		" + customerID);
 				for(int i = 0; i < accountList.size(); i++) {

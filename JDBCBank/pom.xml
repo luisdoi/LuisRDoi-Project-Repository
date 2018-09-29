@@ -4,7 +4,7 @@
   <artifactId>JDBCBank</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>JDBCBank</name>
-  <description>Revature Project 0 Part II: Banking app using JDBC and SQL to edit and host data in remote datababse.</description>
+  <description>Revature Project 0 Part II: Banking app using JDBC and SQL to edit and host data in remote database.</description>
 
    <dependencies>
   

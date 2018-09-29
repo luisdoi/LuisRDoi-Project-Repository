@@ -18,7 +18,7 @@ public interface CustomerDAO {
 	public abstract ArrayList<Customer> getAllCustomers() throws SQLException;
 
 	// CRUD - Update
-	// ...
+	public abstract boolean updateCustomerInfo(String newFName, String newLName, String newPhoneNum, String newPWord, long customerID);
 	
 	// CRUD - Delete
 	public abstract boolean deleteCustomerRecord() throws SQLException;

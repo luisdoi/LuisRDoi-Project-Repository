@@ -1,5 +1,6 @@
 package jdbcBank.DAOImpl;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -21,7 +22,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	public Customer getCustomerByName(String fname, String lname) {
+	public Customer getCustomerByName(String fname, String lname) throws SQLException {
 		
 		Customer C = null;
 		Connection conn = cf.getConnection();
@@ -107,6 +108,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 		}
 		return tCustomerID;
 	}
+	
 	public ArrayList<Customer> getAllCustomers() throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
@@ -115,6 +117,25 @@ public class CustomerDAOImpl implements CustomerDAO {
 	public boolean deleteCustomerRecord() throws SQLException {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	public boolean updateCustomerInfo(String newFName, String newLName, String newPhoneNum, 
+			String newPWord, long customerID) {
+		Connection conn = cf.getConnection();
+		String sql = "{ call UPDATECUSTOMERINFO(?,?,?,?,?)";
+		CallableStatement call;
+		try {
+			call = conn.prepareCall(sql);
+			call.setString(1,newFName);
+			call.setString(2,newLName);
+			call.setString(3, newPhoneNum);
+			call.setString(4, newPWord);
+			call.setLong(5, customerID );
+			call.executeQuery();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
 
 }

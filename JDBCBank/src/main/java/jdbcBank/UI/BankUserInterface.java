@@ -4,7 +4,6 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import jdbcBank.DAOImpl.AccountDAOImpl;
 import jdbcBank.DAOImpl.CustomerDAOImpl;
 import jdbcBank.DAOImpl.EmployeeDAOImpl;
 import jdbcBank.DAOImpl.LoginInfoDAOImpl;
@@ -16,7 +15,6 @@ import jdbcBank.Objects.LoginInfo;
 
 public class BankUserInterface {
 
-	//public AccountDAOImpl accountDAO = new AccountDAOImpl();
 	public CustomerDAOImpl customerDAO = new CustomerDAOImpl();
 	public EmployeeDAOImpl employeeDAO = new EmployeeDAOImpl();
 	public LoginInfoDAOImpl logininfoDAO = new LoginInfoDAOImpl();
@@ -27,7 +25,7 @@ public class BankUserInterface {
 
 		while(true) {
 			System.out.println("\nAs a customer, would you like to: \n '1' Withdraw \n '2' Deposit \n '3' Transfer to Account\n"+
-			" '4' View Accounts\n '5' Apply for an Account\n '6' Delete an Account\n 'Q' Log Off\n" + 
+			" '4' View Accounts\n '5' Apply for an Account\n '6' Delete an Account\n '7' View Transaction History\n 'Q' Log Off\n" + 
 			" Please enter choice:");
 			String x = SC.nextLine();
 			
@@ -54,6 +52,10 @@ public class BankUserInterface {
 						break;
 					case 6:
 						C.deleteCustomerAccount(SC);
+						break;
+					case 7:
+						C.viewTransactionHistory(SC);
+						break;
 					default:
 						break;
 					}
@@ -73,8 +75,9 @@ public class BankUserInterface {
 			System.out.println("\nAs an bank administrator, would you like to: \n '1' View customer info \n" +
 					" '2' Approve/Deny open applications for accounts\n '3' Withdraw from Customer Account\n" +
 					" '4' Deposit to Customer Account\n '5' Transfer to/from Customer Accounts\n" + 
-					" '6' Close Customer Account\n '7' Cancel Customer Account\n" +
-					" '8' Update Customer Information\n 'Q' Log Off\n Please Enter Choice:\n");
+					" '6' Close Customer Account\n '7' Delete Customer Account\n" +
+					" '8' Update Customer Information\n '9' View Customer Transaction History\n" +
+					" 'Q' Log Off\n Please Enter Choice:\n");
 			String x = SC.nextLine();
 			
 			if(x.length() == 1) {
@@ -102,11 +105,13 @@ public class BankUserInterface {
 						E.closeAccount(SC);
 						break;
 					case 7:
-						E.cancelAccount(SC);
+						E.deleteAccount(SC);
 						break;
 					case 8:
-						E.updateCustomerInformation(SC);
+						E.updateCustomerInfo(SC);
 						break;
+					case 9:
+						E.viewCustomerTransactions(SC);
 					default:
 						break;
 						
@@ -243,7 +248,7 @@ public class BankUserInterface {
 				try {
 					logininfoDAO.createLoginRecord(C, LI);
 					System.out.println("Congratulations " + fName + " " + lName + " you have created a new customer account. " +
-							"Your username is: " + uName + " and your password is: " + pWord);
+							"Your username is: " + uName + " and your password is: " + pWord + "\n\n\n");
 							//System.out.println("Your customerID is:      " + tempCustomerID + "\n");
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
@@ -257,7 +262,11 @@ public class BankUserInterface {
 	public void initialize(Scanner SC) {
 		
 		while(true) {
-			System.out.println("Hello and welcome to Red Feather Bank!\n" + "Please enter '1' if you would like to " 
+			System.out.println("**************************************\n"
+					+ "Hello and Welcome to RED FEATHER BANK!\n"
+					+ "**************************************\n"
+					+ "**************************************\n"
+					+ "\n" + "Please enter '1' if you would like to " 
 		+ "log into an account in our system.\n" + "Enter '2' if you would like to register a customer account.");
 			String x = SC.nextLine();
 

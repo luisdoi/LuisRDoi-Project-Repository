@@ -1,7 +1,11 @@
 package jdbcBank.Objects;
 
 import java.sql.Date;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
+import jdbcBank.Objects.Customer;
+import jdbcBank.DAOImpl.AccountDAOImpl;
 
 public class Employee {
 	
@@ -13,6 +17,8 @@ public class Employee {
 	private String phoneNumber;
 	private String title;
 	private long loginID;
+	
+	public static AccountDAOImpl accountDAO = new AccountDAOImpl();
 	
 	// Constructor
 	public Employee(long employeeID, String firstName, String lastName, Date birthdate, String phoneNumber,
@@ -38,37 +44,113 @@ public class Employee {
 	}
 	
 	public boolean manageOpenAppsForAccounts(Scanner SC) {
-		
-		return false;
+		ArrayList<Account> accountList = null;
+		try {
+			accountList = accountDAO.getPendingStatusAccounts();
+		} catch (SQLException e) {
+			System.out.println("ERROR - SQL Error attempting to get pending status accounts from database.\n");
+			e.printStackTrace();
+			return false;
+		}
+		if(accountList != null) {		
+			for(Account A: accountList) {
+				
+				System.out.println("The following account application needs your attention:\n\n" + A + "\n");
+				System.out.println("Please enter: \n '1' to APPROVE\n '2' to DENY\n 'Q' to QUIT");
+				String x = SC.nextLine();
+				if(x.length() == 1) {
+					if(x.equals("Q")) {
+						return false;
+					}
+					try {
+						int X = Integer.valueOf(x);
+						switch(X) {
+						case 1:
+							A.updateAccountStatus(A.getAccountID(), Account.convertToStatusID("Active"));
+							System.out.println("The following account has been successfully ACTIVATED:\n\n" + A);
+							break;
+						case 2:
+							A.updateAccountStatus(A.getAccountID(), Account.convertToStatusID("Closed"));
+							System.out.println("The following account has been successfully CLOSED:\n\n" + A);
+							break;
+						default:
+							System.out.println("ERROR - Your input was invalid. Please try again");
+							System.out.println();
+							break;
+						}
+					} catch(NumberFormatException e){
+						System.out.println("ERROR - Your input was invalid. Please try again.\n");
+						e.printStackTrace();
+						return false;
+					}
+				}
+				else {
+					System.out.println("ERROR - Your input was invalid. Please try again.\n");
+				}
+			}	
+		}
+		else {
+			System.out.println("There are no accounts left with a pending status.\n\n");
+		}
+		return true;
 	}
 	
 	public boolean withdraw(Scanner SC) {
-		
+		Customer C = Customer.getCustomerByName(SC);
+		if(C != null) {
+			return C.withdraw(SC);
+			// TODO LOG AS EMPLOYEE
+		}
 		return false;
 	}
 	
 	public boolean deposit(Scanner SC) {
-		
+		Customer C = Customer.getCustomerByName(SC);
+		if(C != null) {
+			return C.deposit(SC);
+			// TODO LOG AS EMPLOYEE
+		}
 		return false;
 	}
 	
 	public boolean transfer(Scanner SC) {
-		
+		Customer C = Customer.getCustomerByName(SC);
+		if(C != null) {
+			return C.transfer(SC);
+			// TODO LOG AS EMPLOYEE
+		}
 		return false;
 	}
 	
 	public boolean closeAccount(Scanner SC) {
-		
+		Customer C = Customer.getCustomerByName(SC);
+		if(C != null) {
+			return C.withdraw(SC);
+		}
 		return false;
 	}
 	
-	public boolean cancelAccount(Scanner SC) {
-		
+	public boolean deleteAccount(Scanner SC) {
+		Customer C = Customer.getCustomerByName(SC);
+		if(C != null) {
+			return C.deleteCustomerAccount(SC);
+		}
+		return false;	
+	}
+	
+	public boolean updateCustomerInfo(Scanner SC) {
+		Customer C = Customer.getCustomerByName(SC);
+		if(C != null) {
+			return C.updateCustomerInfo(SC);
+		}
 		return false;
 	}
 	
-	public boolean updateCustomerInformation(Scanner SC) {
-		
+	public boolean viewCustomerTransactions(Scanner SC) {
+		Customer C = Customer.getCustomerByName(SC);
+		if(C != null) {
+			return C.viewTransactionHistory(SC);
+		}
 		return false;
 	}
 	

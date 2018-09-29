@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="Console" target="System_out">
+            <PatternLayout>
+                <Pattern>
+                	[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+                </Pattern>
+            </PatternLayout>
+        </Console>
+        <File name="File" fileName="C:/Users/Luis Rivera Doi/Desktop/jdbcBankLoggerLogs.log">
+            <PatternLayout>
+                <Pattern>
+                    [%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+                </Pattern>
+            </PatternLayout>
+        </File>
+    </Appenders>
+    <Appenders>
+    
+    	<JDBC name="databaseAppender" tableName="LUISRIVERADOI.TRANSACTION_LOGS">
+     		 <ConnectionFactory class="com.revature.util.ConnectionFactory" method="getConnection" />
+     		 <Column name="USER_ID"  pattern="%X{user_id}"/>
+      		 <Column name="DATED" isEventTimestamp="true"/>
+      		 <Column name="LOGGER" pattern="%logger" />
+      		 <Column name="LOGLEVEL" pattern="%level"/>
+      		 <Column name="MESSAGE" pattern="%message" />
+        </JDBC>
+   
+    </Appenders>
+    
+    <Loggers>
+        <Logger name="jdbcBank.Objects.BankLogger" level = "info" additivity= "false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref = "File"/>
+        </Logger>
+        <Root>
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref = "File"/>
+        </Root>
+    </Loggers>
+</Configuration>

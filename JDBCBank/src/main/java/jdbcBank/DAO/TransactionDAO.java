@@ -14,7 +14,7 @@ public interface TransactionDAO {
 	
 	// CRUD - Read
 	public abstract ArrayList<Transaction> getEmployeeTransactions() throws SQLException;
-	public abstract ArrayList<Transaction> getCustomerTransactions() throws SQLException;
+	public abstract ArrayList<Transaction> getCustomerTransactions(long customerID) throws SQLException;
 	public abstract ArrayList<Transaction> getAllTransactions() throws SQLException;
 	// CRUD - Update
 	// ...
